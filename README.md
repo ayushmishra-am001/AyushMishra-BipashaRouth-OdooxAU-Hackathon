@@ -11,3 +11,5 @@ Account used:
 
 # Note:
 - Due to technical glitches some earlier commits got overwritten. (Kindly consider)
+
+Thanking you for your kindness.
