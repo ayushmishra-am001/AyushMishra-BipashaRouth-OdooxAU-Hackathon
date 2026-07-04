@@ -1241,3 +1241,156 @@ button {
   background: var(--color-error-tint);
   color: var(--color-error);
 }
+
+/* ============================================================
+   Step 8 — Time Off (balances, apply modal, request tables)
+   ============================================================ */
+.time-off-page {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-card);
+}
+
+.section-heading {
+  font-size: 15px;
+  color: var(--color-ink-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin: 28px 0 12px;
+}
+
+/* ---- Balance cards ---- */
+.leave-balance-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 14px;
+}
+
+.leave-balance-card {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  background: var(--color-surface-sunken);
+}
+
+.leave-balance-card__name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-ink-muted);
+  margin-bottom: 8px;
+}
+
+.leave-balance-card__remaining {
+  font-family: var(--font-display);
+  font-size: 30px;
+  color: var(--color-primary-dark);
+  line-height: 1;
+}
+
+.leave-balance-card__meta {
+  font-size: 12.5px;
+  color: var(--color-ink-faint);
+  margin-top: 4px;
+}
+
+.leave-balance-card__unlimited {
+  font-size: 13.5px;
+  color: var(--color-ink-muted);
+  font-style: italic;
+  padding-top: 6px;
+}
+
+/* ---- Request table ---- */
+.leave-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.leave-table th {
+  text-align: left;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--color-ink-faint);
+  padding: 10px;
+  border-bottom: 1.5px solid var(--color-border);
+}
+
+.leave-table td {
+  padding: 12px 10px;
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: middle;
+}
+
+.leave-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.leave-table__remarks {
+  color: var(--color-ink-muted);
+  max-width: 240px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.leave-table__actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.leave-table__empty {
+  color: var(--color-ink-faint);
+  text-align: center;
+  font-style: italic;
+  padding: 32px 0;
+}
+
+.leave-badge {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 999px;
+}
+
+.leave-badge--pending {
+  background: var(--color-gold-tint);
+  color: var(--color-gold);
+}
+
+.leave-badge--approved {
+  background: var(--color-primary-tint);
+  color: var(--color-primary-dark);
+}
+
+.leave-badge--rejected {
+  background: var(--color-error-tint);
+  color: var(--color-error);
+}
+
+/* ---- Small buttons, used in the approvals table ---- */
+.btn-sm {
+  padding: 6px 12px;
+  font-size: 13px;
+}
+
+.field textarea {
+  font-family: var(--font-body);
+  font-size: 14px;
+  padding: 9px 12px;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  resize: vertical;
+}
+
+.field textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}

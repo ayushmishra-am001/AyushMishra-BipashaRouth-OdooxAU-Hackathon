@@ -58,3 +58,13 @@ export function formatRangeLabel(from, to) {
   if (from === to) return formatDateLong(from);
   return `${formatDateShort(from)} – ${formatDateShort(to)}`;
 }
+
+// Mirrors backend/src/utils/dateHelpers.js daysBetweenInclusive exactly, so
+// the leave request form can show the same day count the server will
+// validate against instead of a client-side estimate that might disagree.
+export function daysBetweenInclusive(startDate, endDate) {
+  const start = parseDateString(startDate);
+  const end = parseDateString(endDate);
+  const diffMs = end.getTime() - start.getTime();
+  return Math.round(diffMs / (1000 * 60 * 60 * 24)) + 1;
+}
