@@ -7,8 +7,5 @@ node_modules/
 *.log
 .DS_Store
 dist/
-<<<<<<< HEAD
 build/
-=======
 build/
->>>>>>> 2786fa7f8b381a9760f8d9a81b86f5110b9fb08f
