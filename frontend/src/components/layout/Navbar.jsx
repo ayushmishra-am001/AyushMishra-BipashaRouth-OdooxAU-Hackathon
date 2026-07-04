@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { companyApi } from '../../api/company';
 import { CheckInOutButton } from './CheckInOutButton';
 
 const TABS = [
@@ -22,7 +23,23 @@ export function Navbar() {
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [company, setCompany] = useState(null);
   const menuRef = useRef(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    companyApi
+      .getCurrent()
+      .then((data) => {
+        if (!cancelled) setCompany(data);
+      })
+      .catch(() => {
+        // Branding is a nice-to-have - fall back to the wordmark silently.
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   // Close the avatar dropdown on outside click, same as any real app menu.
   useEffect(() => {
@@ -43,7 +60,13 @@ export function Navbar() {
 
   return (
     <header className="navbar">
-      <div className="navbar__brand">HRMS</div>
+      <div className="navbar__brand">
+        {company?.logoUrl ? (
+          <img src={company.logoUrl} alt={company.name} className="navbar__brand-logo" />
+        ) : (
+          <span>{company?.name || 'HRMS'}</span>
+        )}
+      </div>
 
       <nav className="navbar__tabs">
         {TABS.map((tab) => (

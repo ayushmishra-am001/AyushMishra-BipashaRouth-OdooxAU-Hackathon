@@ -135,8 +135,10 @@ export function SalaryTab({ userId }) {
           </div>
           <div className="profile-field-grid">
             <ProfileStat label="Working days / week" value={salary.workingDaysPerWeek} />
-            <ProfileStat label="PF contribution" value={`${salary.pfRate}%`} />
-            <ProfileStat label="Professional tax" value={`₹${salary.professionalTax}`} />
+            <ProfileStat label="PF rate" value={`${salary.pfRate}%`} />
+            <ProfileStat label="Employee PF" value={`₹${salary.employeePfAmount.toLocaleString('en-IN')} / month`} />
+            <ProfileStat label="Employer PF" value={`₹${salary.employerPfAmount.toLocaleString('en-IN')} / month`} />
+            <ProfileStat label="Professional tax" value={`₹${salary.professionalTax} / month`} />
           </div>
         </div>
 

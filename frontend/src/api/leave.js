@@ -6,6 +6,11 @@ function listTypes() {
   return apiClient.get('/leave-types');
 }
 
+// admin/hr only. Wireframe's "Allocation" tab.
+function updateAllocation(leaveTypeId, { allocatedDays, applyToCurrentYear }) {
+  return apiClient.put(`/leave-types/${leaveTypeId}/allocation`, { allocatedDays, applyToCurrentYear });
+}
+
 // userId omitted -> defaults to the logged-in user server-side.
 function listBalances(userId) {
   const qs = userId ? `?userId=${userId}` : '';
@@ -36,4 +41,13 @@ function reject(id) {
   return apiClient.put(`/leave-requests/${id}/reject`);
 }
 
-export const leaveApi = { listTypes, listBalances, createRequest, listMyRequests, listCompanyRequests, approve, reject };
+export const leaveApi = {
+  listTypes,
+  updateAllocation,
+  listBalances,
+  createRequest,
+  listMyRequests,
+  listCompanyRequests,
+  approve,
+  reject,
+};

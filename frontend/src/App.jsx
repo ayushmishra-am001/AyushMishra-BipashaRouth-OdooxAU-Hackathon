@@ -4,6 +4,7 @@ import { RedirectIfAuthenticated } from './components/RedirectIfAuthenticated';
 import { AppShell } from './components/layout/AppShell';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
+import VerifyEmail from './pages/VerifyEmail';
 import ChangePassword from './pages/ChangePassword';
 import EmployeesPage from './pages/EmployeesPage';
 import EmployeeProfilePage from './pages/EmployeeProfilePage';
@@ -19,6 +20,7 @@ export default function App() {
       <Route element={<RedirectIfAuthenticated />}>
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/sign-up" element={<SignUp />} />
+        <Route path="/verify-email" element={<VerifyEmail />} />
       </Route>
 
       {/* Everything below requires a session. RequireAuth also redirects to

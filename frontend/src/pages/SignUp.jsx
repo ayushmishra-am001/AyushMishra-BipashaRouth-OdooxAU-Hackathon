@@ -5,7 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import { ApiError } from '../api/client';
 import { isValidEmail, isValidPassword, PASSWORD_RULE_MESSAGE } from '../utils/validation';
 
-const initialForm = { companyName: '', name: '', email: '', password: '', confirmPassword: '' };
+const initialForm = { companyName: '', name: '', email: '', password: '', confirmPassword: '', logoUrl: '' };
 
 export default function SignUp() {
   const { signUp } = useAuth();
@@ -39,13 +39,17 @@ export default function SignUp() {
 
     setSubmitting(true);
     try {
-      await signUp({
+      const result = await signUp({
         companyName: form.companyName.trim(),
         name: form.name.trim(),
         email: form.email.trim(),
         password: form.password,
+        logoUrl: form.logoUrl.trim() || undefined,
       });
-      navigate('/employees', { replace: true });
+      navigate('/verify-email', {
+        replace: true,
+        state: { email: form.email.trim(), devVerificationCode: result.devVerificationCode },
+      });
     } catch (err) {
       setFormError(err instanceof ApiError ? err.message : 'Could not create your account. Please try again.');
     } finally {
@@ -130,6 +134,20 @@ export default function SignUp() {
             placeholder="••••••••"
           />
           {fieldErrors.confirmPassword && <span className="field-error">{fieldErrors.confirmPassword}</span>}
+        </div>
+
+        <div className="field">
+          <label htmlFor="logoUrl">Company logo URL (optional)</label>
+          <input
+            id="logoUrl"
+            value={form.logoUrl}
+            onChange={updateField('logoUrl')}
+            placeholder="https://…/logo.png"
+          />
+          <span className="field-hint">
+            Shown in the top-left of the app for everyone at your company. This build takes a link
+            rather than a file upload — there's no image storage in this stack (see README).
+          </span>
         </div>
 
         <button type="submit" className="btn btn-primary btn-block" disabled={submitting}>

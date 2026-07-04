@@ -33,6 +33,10 @@ export default function SignIn() {
         navigate(redirectTo || '/employees', { replace: true });
       }
     } catch (err) {
+      if (err instanceof ApiError && err.code === 'EMAIL_NOT_VERIFIED') {
+        navigate('/verify-email', { replace: true, state: { email } });
+        return;
+      }
       setError(err instanceof ApiError ? err.message : 'Could not sign in. Please try again.');
     } finally {
       setSubmitting(false);

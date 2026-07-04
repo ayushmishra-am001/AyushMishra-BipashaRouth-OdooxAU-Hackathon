@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { leaveApi } from '../../api/leave';
 import { ApiError } from '../../api/client';
-import { daysBetweenInclusive, todayString } from '../../utils/dates';
+import { daysBetweenInclusive } from '../../utils/dates';
+import { LeaveCalendarPicker } from './LeaveCalendarPicker';
 
 const initialForm = { leaveTypeId: '', startDate: '', endDate: '', remarks: '', attachmentUrl: '' };
 
@@ -88,27 +89,20 @@ export function ApplyLeaveModal({ leaveTypes, balances, onClose, onSubmitted }) 
             )}
           </div>
 
-          <div className="field-row">
-            <div className="field">
-              <label htmlFor="leave-start">Start date</label>
-              <input
-                id="leave-start"
-                type="date"
-                min={todayString()}
-                value={form.startDate}
-                onChange={setField('startDate')}
-              />
-            </div>
-            <div className="field">
-              <label htmlFor="leave-end">End date</label>
-              <input
-                id="leave-end"
-                type="date"
-                min={form.startDate || todayString()}
-                value={form.endDate}
-                onChange={setField('endDate')}
-              />
-            </div>
+          <div className="field">
+            <label>Date range</label>
+            <LeaveCalendarPicker
+              startDate={form.startDate}
+              endDate={form.endDate}
+              onChange={({ startDate, endDate }) => setForm((f) => ({ ...f, startDate, endDate }))}
+            />
+            {form.startDate && (
+              <p className="field-hint">
+                {form.startDate === form.endDate
+                  ? `Selected: ${form.startDate}`
+                  : `Selected: ${form.startDate} → ${form.endDate}`}
+              </p>
+            )}
           </div>
 
           {requestedDays !== null && <p className="field-hint">{requestedDays} day(s) requested</p>}

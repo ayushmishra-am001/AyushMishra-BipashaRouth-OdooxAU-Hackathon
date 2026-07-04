@@ -386,6 +386,14 @@ button {
   font-size: 18px;
   letter-spacing: 0.04em;
   color: var(--color-primary-dark);
+  display: flex;
+  align-items: center;
+}
+
+.navbar__brand-logo {
+  height: 32px;
+  max-width: 140px;
+  object-fit: contain;
 }
 
 .navbar__tabs {
@@ -1259,6 +1267,288 @@ button {
   text-transform: uppercase;
   letter-spacing: 0.03em;
   margin: 28px 0 12px;
+}
+
+/* ---- Leave date-range calendar picker ---- */
+.leave-calendar {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 12px;
+  background: var(--color-surface-sunken);
+}
+
+.leave-calendar__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.leave-calendar__title {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.leave-calendar__nav {
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  border-radius: var(--radius-sm);
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+}
+
+.leave-calendar__nav:hover {
+  background: var(--color-primary-tint);
+}
+
+.leave-calendar__grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+.leave-calendar__weekday {
+  text-align: center;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-ink-faint);
+  padding: 4px 0;
+}
+
+.leave-calendar__day {
+  aspect-ratio: 1;
+  border: none;
+  background: transparent;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  cursor: pointer;
+  color: var(--color-ink);
+}
+
+.leave-calendar__day:hover:not(:disabled) {
+  background: var(--color-primary-tint);
+}
+
+.leave-calendar__day--empty {
+  cursor: default;
+}
+
+.leave-calendar__day--disabled {
+  color: var(--color-ink-faint);
+  cursor: not-allowed;
+}
+
+.leave-calendar__day--today {
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.leave-calendar__day--in-range {
+  background: var(--color-primary-tint);
+}
+
+.leave-calendar__day--selected {
+  background: var(--color-primary);
+  color: #fff;
+  font-weight: 600;
+}
+
+/* ---- Monthly attendance calendar ---- */
+.month-calendar {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 16px;
+}
+
+.month-calendar__grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+}
+
+.month-calendar__grid--headers {
+  margin-bottom: 6px;
+}
+
+.month-calendar__weekday {
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-ink-faint);
+}
+
+.month-calendar__day {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 600;
+  background: var(--color-surface-sunken);
+  color: var(--color-ink-muted);
+}
+
+.month-calendar__day--empty {
+  background: transparent;
+}
+
+.month-calendar__day--future {
+  background: transparent;
+  color: var(--color-ink-faint);
+  font-weight: 400;
+}
+
+.month-calendar__day--today {
+  box-shadow: inset 0 0 0 2px var(--color-primary-dark);
+}
+
+.month-calendar__day--present {
+  background: var(--color-primary-tint);
+  color: var(--color-primary-dark);
+}
+
+.month-calendar__day--half_day {
+  background: var(--color-gold-tint);
+  color: var(--color-gold);
+}
+
+.month-calendar__day--leave {
+  background: #e6eefb;
+  color: #2f5fa8;
+}
+
+.month-calendar__day--absent {
+  background: var(--color-error-tint);
+  color: var(--color-error);
+}
+
+.month-calendar__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 14px;
+  font-size: 12.5px;
+  color: var(--color-ink-muted);
+}
+
+.month-calendar__legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.month-calendar__swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  display: inline-block;
+  font-style: normal;
+}
+
+.month-calendar__swatch--present { background: var(--color-primary-tint); box-shadow: inset 0 0 0 1px var(--color-primary-dark); }
+.month-calendar__swatch--half_day { background: var(--color-gold-tint); box-shadow: inset 0 0 0 1px var(--color-gold); }
+.month-calendar__swatch--leave { background: #e6eefb; box-shadow: inset 0 0 0 1px #2f5fa8; }
+.month-calendar__swatch--absent { background: var(--color-error-tint); box-shadow: inset 0 0 0 1px var(--color-error); }
+
+/* Narrow viewports: both calendars use a 7-column fr grid so they already
+   scale width-wise, but at phone widths the day numbers and legend text
+   need to shrink too or they start colliding/wrapping awkwardly. */
+@media (max-width: 480px) {
+  .leave-calendar {
+    padding: 8px;
+  }
+
+  .leave-calendar__day {
+    font-size: 11px;
+  }
+
+  .leave-calendar__nav {
+    width: 24px;
+    height: 24px;
+    font-size: 14px;
+  }
+
+  .month-calendar {
+    padding: 10px;
+  }
+
+  .month-calendar__day {
+    font-size: 11px;
+  }
+
+  .month-calendar__legend {
+    gap: 10px;
+    font-size: 11px;
+  }
+}
+
+/* ---- Time Off toolbar (search + status filter, admin/HR view) ---- */
+.time-off-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+/* ---- Allocation tab (admin/HR: set default days per leave type) ---- */
+.allocation-tab__intro {
+  color: var(--color-ink-muted);
+  font-size: 14px;
+  max-width: 640px;
+  margin-bottom: 20px;
+}
+
+.allocation-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.allocation-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  background: var(--color-surface);
+}
+
+.allocation-row__name {
+  font-weight: 600;
+  min-width: 140px;
+}
+
+.allocation-row__input {
+  width: 80px;
+}
+
+.allocation-row__unit {
+  color: var(--color-ink-muted);
+  font-size: 13px;
+}
+
+.allocation-row__checkbox {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--color-ink-muted);
+  margin-left: auto;
+}
+
+.allocation-row__saved {
+  color: var(--color-primary-dark);
+  font-size: 13px;
+  font-weight: 600;
 }
 
 /* ---- Balance cards ---- */

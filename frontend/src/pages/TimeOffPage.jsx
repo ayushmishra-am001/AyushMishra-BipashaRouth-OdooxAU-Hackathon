@@ -5,6 +5,7 @@ import { ApiError } from '../api/client';
 import { LeaveBalanceCard } from '../components/timeoff/LeaveBalanceCard';
 import { ApplyLeaveModal } from '../components/timeoff/ApplyLeaveModal';
 import { LeaveRequestTable } from '../components/timeoff/LeaveRequestTable';
+import { AllocationTab } from '../components/timeoff/AllocationTab';
 
 function EmployeeTimeOffView() {
   const [leaveTypes, setLeaveTypes] = useState([]);
@@ -88,8 +89,11 @@ const FILTERS = [
 ];
 
 function CompanyTimeOffView() {
+  const [view, setView] = useState('requests'); // 'requests' | 'allocation' - wireframe's Time Off | Allocation tabs
   const [status, setStatus] = useState('pending');
+  const [search, setSearch] = useState('');
   const [requests, setRequests] = useState([]);
+  const [leaveTypes, setLeaveTypes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [busyId, setBusyId] = useState(null);
@@ -108,12 +112,33 @@ function CompanyTimeOffView() {
     }
   };
 
+  const loadLeaveTypes = async () => {
+    try {
+      const types = await leaveApi.listTypes();
+      setLeaveTypes(types);
+    } catch (err) {
+      setError(err instanceof ApiError ? err.message : 'Could not load leave types.');
+    }
+  };
+
   useEffect(() => {
     loadRequests(status);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status]);
 
+  useEffect(() => {
+    loadLeaveTypes();
+  }, []);
+
   const pendingCount = useMemo(() => requests.filter((r) => r.status === 'pending').length, [requests]);
+
+  const filteredRequests = useMemo(() => {
+    const q = search.trim().toLowerCase();
+    if (!q) return requests;
+    return requests.filter(
+      (r) => r.userName?.toLowerCase().includes(q) || r.leaveTypeName?.toLowerCase().includes(q)
+    );
+  }, [requests, search]);
 
   const handleReview = async (id, action) => {
     setBusyId(id);
@@ -134,39 +159,76 @@ function CompanyTimeOffView() {
         <div>
           <h2>Time Off</h2>
           <p className="page-header__subtitle">
-            {loading ? 'Loading…' : `${pendingCount} pending request${pendingCount === 1 ? '' : 's'}`}
+            {view === 'requests'
+              ? loading
+                ? 'Loading…'
+                : `${pendingCount} pending request${pendingCount === 1 ? '' : 's'}`
+              : 'Manage default leave allocations'}
           </p>
         </div>
         <div className="page-header__actions">
           <div className="segmented">
-            {FILTERS.map((filter) => (
-              <button
-                key={filter.value}
-                type="button"
-                className={`segmented__option${status === filter.value ? ' segmented__option--active' : ''}`}
-                onClick={() => setStatus(filter.value)}
-              >
-                {filter.label}
-              </button>
-            ))}
+            <button
+              type="button"
+              className={`segmented__option${view === 'requests' ? ' segmented__option--active' : ''}`}
+              onClick={() => setView('requests')}
+            >
+              Time Off
+            </button>
+            <button
+              type="button"
+              className={`segmented__option${view === 'allocation' ? ' segmented__option--active' : ''}`}
+              onClick={() => setView('allocation')}
+            >
+              Allocation
+            </button>
           </div>
         </div>
       </div>
 
       {error && <div className="banner-error" role="alert">{error}</div>}
-      {actionError && <div className="banner-error" role="alert">{actionError}</div>}
 
-      {loading ? (
-        <div className="loading-note">Loading time off requests…</div>
+      {view === 'requests' ? (
+        <>
+          <div className="time-off-toolbar">
+            <input
+              className="search-input"
+              type="search"
+              placeholder="Search by employee or leave type…"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            <div className="segmented">
+              {FILTERS.map((filter) => (
+                <button
+                  key={filter.value}
+                  type="button"
+                  className={`segmented__option${status === filter.value ? ' segmented__option--active' : ''}`}
+                  onClick={() => setStatus(filter.value)}
+                >
+                  {filter.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {actionError && <div className="banner-error" role="alert">{actionError}</div>}
+
+          {loading ? (
+            <div className="loading-note">Loading time off requests…</div>
+          ) : (
+            <LeaveRequestTable
+              requests={filteredRequests}
+              showEmployeeColumn
+              busyId={busyId}
+              onApprove={(id) => handleReview(id, 'approve')}
+              onReject={(id) => handleReview(id, 'reject')}
+              emptyMessage={search ? 'No requests match your search.' : 'No requests match this filter.'}
+            />
+          )}
+        </>
       ) : (
-        <LeaveRequestTable
-          requests={requests}
-          showEmployeeColumn
-          busyId={busyId}
-          onApprove={(id) => handleReview(id, 'approve')}
-          onReject={(id) => handleReview(id, 'reject')}
-          emptyMessage="No requests match this filter."
-        />
+        <AllocationTab leaveTypes={leaveTypes} onSaved={loadLeaveTypes} />
       )}
     </div>
   );

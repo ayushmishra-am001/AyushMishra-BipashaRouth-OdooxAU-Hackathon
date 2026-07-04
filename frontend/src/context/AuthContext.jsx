@@ -45,10 +45,14 @@ export function AuthProvider({ children }) {
     return data.user;
   };
 
-  const signUp = async ({ companyName, name, email, password }) => {
-    const data = await authApi.signup({ companyName, name, email, password });
-    // Admins created via signup never start with mustChangePassword set, so
-    // this is safe to default to false rather than requiring the field.
+  const signUp = async ({ companyName, name, email, password, logoUrl }) => {
+    // No session yet - the account can't sign in until the email is
+    // verified (requirement 3.1.1). See VerifyEmail.jsx for the next step.
+    return authApi.signup({ companyName, name, email, password, logoUrl });
+  };
+
+  const verifyEmail = async ({ email, code }) => {
+    const data = await authApi.verifyEmail({ email, code });
     persist({ token: data.token, user: { ...data.user, mustChangePassword: false } });
     return data.user;
   };
@@ -66,6 +70,7 @@ export function AuthProvider({ children }) {
       isAuthenticated: Boolean(session?.token),
       signIn,
       signUp,
+      verifyEmail,
       signOut,
       changePassword,
     }),

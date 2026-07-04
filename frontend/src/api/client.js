@@ -18,10 +18,11 @@ function setUnauthorizedHandler(handler) {
 }
 
 class ApiError extends Error {
-  constructor(message, status) {
+  constructor(message, status, code) {
     super(message);
     this.name = 'ApiError';
     this.status = status;
+    this.code = code;
   }
 }
 
@@ -44,7 +45,7 @@ async function request(path, { method = 'GET', body, headers = {} } = {}) {
     if (res.status === 401 && onUnauthorized) {
       onUnauthorized();
     }
-    throw new ApiError(data?.error || 'Something went wrong. Please try again.', res.status);
+    throw new ApiError(data?.error || 'Something went wrong. Please try again.', res.status, data?.code);
   }
 
   return data;
