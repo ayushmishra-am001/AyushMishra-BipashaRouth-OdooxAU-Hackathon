@@ -1049,3 +1049,195 @@ button {
 .security-form {
   max-width: 380px;
 }
+
+/* ============================================================
+   Step 7 — Attendance (navbar check-in/out + list views)
+   ============================================================ */
+.checkinout {
+  display: flex;
+  align-items: center;
+}
+
+.checkinout--placeholder {
+  width: 118px;
+  height: 34px;
+}
+
+.checkinout__btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--color-ink);
+  background: var(--color-surface-sunken);
+  border: 1.5px solid var(--color-border);
+  border-radius: 999px;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: background-color 120ms ease, border-color 120ms ease, opacity 120ms ease;
+}
+
+.checkinout__btn:hover:not(:disabled) {
+  border-color: var(--color-border-strong);
+}
+
+.checkinout__btn:disabled {
+  cursor: default;
+  opacity: 0.75;
+}
+
+.checkinout__dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.checkinout__dot--red {
+  background: var(--color-error);
+}
+
+.checkinout__dot--green {
+  background: #3f8a52;
+}
+
+.checkinout__arrow {
+  color: var(--color-ink-faint);
+}
+
+.checkinout__error {
+  color: var(--color-error);
+  font-size: 12px;
+  margin-left: 8px;
+  max-width: 180px;
+}
+
+/* ---- Day/Week segmented toggle ---- */
+.segmented {
+  display: inline-flex;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.segmented__option {
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--color-ink-muted);
+  background: var(--color-surface);
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.segmented__option + .segmented__option {
+  border-left: 1.5px solid var(--color-border);
+}
+
+.segmented__option--active {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.date-input {
+  font-family: var(--font-body);
+  font-size: 14px;
+  padding: 8px 12px;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-ink);
+}
+
+.date-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+/* ---- Prev/next date nav bar above the table ---- */
+.attendance-nav {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.attendance-nav__label {
+  font-family: var(--font-display);
+  font-size: 16px;
+  color: var(--color-ink);
+  min-width: 160px;
+}
+
+/* ---- Table ---- */
+.attendance-page {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-card);
+}
+
+.attendance-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.attendance-table th {
+  text-align: left;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--color-ink-faint);
+  padding: 10px;
+  border-bottom: 1.5px solid var(--color-border);
+}
+
+.attendance-table td {
+  padding: 12px 10px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.attendance-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.attendance-table__empty {
+  color: var(--color-ink-faint);
+  text-align: center;
+  font-style: italic;
+  padding: 32px 0;
+}
+
+.attendance-badge {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 999px;
+}
+
+.attendance-badge--present {
+  background: var(--color-primary-tint);
+  color: var(--color-primary-dark);
+}
+
+.attendance-badge--absent {
+  background: var(--color-gold-tint);
+  color: var(--color-gold);
+}
+
+.attendance-badge--half_day {
+  background: var(--color-surface-sunken);
+  color: var(--color-ink-muted);
+}
+
+.attendance-badge--leave {
+  background: var(--color-error-tint);
+  color: var(--color-error);
+}

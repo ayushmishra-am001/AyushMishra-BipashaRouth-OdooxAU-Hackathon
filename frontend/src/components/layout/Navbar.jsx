@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { CheckInOutButton } from './CheckInOutButton';
 
 const TABS = [
   { to: '/employees', label: 'Employees' },
@@ -55,6 +56,8 @@ export function Navbar() {
           </NavLink>
         ))}
       </nav>
+
+      <CheckInOutButton />
 
       <div className="navbar__menu" ref={menuRef}>
         <button
