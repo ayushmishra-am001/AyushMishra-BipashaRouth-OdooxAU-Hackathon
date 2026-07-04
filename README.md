@@ -8,6 +8,7 @@ Both the accounts below blongs to him. Repo created with 1st account. Due to tec
 ## Bipasha Routh:
 Account used:
 - itisbipasha
+(some glitches were experienced, Team work found a way out. Kindly consider)
 
 # Note:
 - Due to technical glitches some earlier commits got overwritten. (Kindly consider)
