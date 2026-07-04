@@ -1,3 +1,10 @@
 hackathon_venv/
 __pycache__/
 *.pyc
+
+node_modules/
+.env
+*.log
+.DS_Store
+dist/
+build/
